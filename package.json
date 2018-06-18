@@ -1,0 +1,46 @@
+{
+	"name": "xformat",
+	"version": "1.0.0",
+	"description": "",
+	"license": "MIT",
+	"main": "lib/index.js",
+	"readmeFilename": "README.md",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/xpublisher/xformat.git"
+	},
+	"scripts": {
+		"test": "ts-node src/test.ts",
+		"lint": "npm run lint:tslint --offline",
+		"lint:fix": "npm run lint:tslint:fix --offline",
+		"lint:tslint": "tslint -c tslint.json 'src/**/*.ts'",
+		"lint:tslint:fix": "tslint --fix -c tslint.json 'src/**/*.ts'",
+		"compile": "tsc"
+	},
+	"author": "Xpublisher GmbH <support+gh@xeditor.com>",
+	"contributors": [
+		"Kevin Palatzky <k.palatzky+gh@xeditor.com>"
+	],
+	"keywords": [
+		"xml",
+		"pretty",
+		"pretty-print",
+		"indent",
+		"parser",
+		"formatter",
+		"xml-formatter",
+		"xml:space",
+		"preserve",
+		"libxmljs"
+	],
+	"dependencies": {
+		"libxmljs": "^0.19.0"
+	},
+	"devDependencies": {
+		"@types/libxmljs": "^0.18.0",
+		"@types/node": "^10.3.3",
+		"ts-node": "^6.1.1",
+		"tslint": "^5.10.0",
+		"typescript": "^2.9.2"
+	}
+}
