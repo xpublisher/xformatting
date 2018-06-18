@@ -29,7 +29,7 @@ const xml = [
 		'Text',
 	'</to>',
 	'</to>',
-	'<codeblock eka:space="peter" xml:space="preserve">for\n(var i \n= 0) {}</codeblock>',
+	'<codeblock eka:space="peter" xml:space="preserve"><style>for\n(var</style> i \n= 0) {}</codeblock>',
 	'</rz:root>',
 ].join('');
 const result = formatter.format(xml);

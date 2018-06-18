@@ -6,7 +6,6 @@ import { Attribute, Element,  Node } from 'libxmljs';
 import { FormatResult } from '../FormatResult';
 import { Processor } from './Processor';
 import { ProcessorResolver } from './ProcessorResolver';
-
 /**
  * Processor to process elements. This processor builds a result for the current element and all its
  * children elements using the passed ProcessResolver
@@ -28,6 +27,14 @@ export class ElementProcessor implements Processor {
 	 * @since 1.0
 	 */
 	protected resolver: ProcessorResolver;
+
+	/**
+	 *
+	 *
+	 * @protected
+	 * @memberof ElementProcessor
+	 */
+	protected checkPreserveSpace: (node: Node, attrs: Map<string, Attribute>) => boolean;
 
 	/**
 	 * Creates an instance of ElementProcessor.
@@ -60,7 +67,9 @@ export class ElementProcessor implements Processor {
 		const element = node as Element;
 
 		// start tag & attributes
-		result.lineBreak();
+		if (!preserveSpace) {
+			result.lineBreak();
+		}
 		result.append('<' + element.name());
 		const attributes = this.processAttributes(element, result);
 
