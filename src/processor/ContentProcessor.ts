@@ -30,9 +30,17 @@ export class ContentProcessor implements Processor {
 	 * @since 1.0
 	 */
 	public process(node: Node, result: FormatResult, preserveSpace: boolean): void {
+		// collapse whitespace
+		let content = node.toString();
 		if (!preserveSpace) {
-			result.lineBreak();
+			content = content.replace(/(^\s+|\s+$)/g, '');
+
+			// add new line if there is content
+			if (content.length > 0) {
+				result.lineBreak();
+			}
 		}
-		result.append(node.toString());
+
+		result.append(content);
 	}
 }
