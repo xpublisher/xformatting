@@ -11,7 +11,6 @@
 		"url": "https://github.com/xpublisher/xformat.git"
 	},
 	"scripts": {
-		"test": "ts-node src/test.ts",
 		"lint": "npm run lint:tslint --offline",
 		"lint:fix": "npm run lint:tslint:fix --offline",
 		"lint:tslint": "tslint -c tslint.json 'src/**/*.ts'",

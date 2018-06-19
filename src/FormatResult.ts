@@ -1,17 +1,18 @@
+import { FormatResultOptions } from './types';
+
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Xpublisher GmbH. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-export interface FormatResultOptions {
-	linebreak: string;
-	indentation: string;
-}
+
 /**
  * Class to store all information in the formatting process
  *
  * @export
  * @class FormatResult
- * @author Kevin Palatzky - Xpublisher GmbH
+ * @author kpalatzky
+ *
+ * @since 1.0
  */
 export class FormatResult {
 
@@ -21,6 +22,7 @@ export class FormatResult {
 	 * @protected
 	 * @type {string}
 	 * @memberof FormatResult
+	 * @since 1.0
 	 */
 	protected buffer: string;
 
@@ -30,6 +32,7 @@ export class FormatResult {
 	 * @protected
 	 * @type {number}
 	 * @memberof FormatResult
+	 * @since 1.0
 	 */
 	protected level: number;
 
@@ -39,17 +42,24 @@ export class FormatResult {
 	 * @protected
 	 * @type {FormatResultOptions}
 	 * @memberof FormatResult
+	 * @since 1.0
 	 */
 	protected options: FormatResultOptions;
 
+	/**
+	 * Creates an instance of FormatResult.
+	 *
+	 * @param {FormatResultOptions} [options]
+	 * Options to controll the handling of this format result
+	 * @memberof FormatResult
+	 */
 	constructor(options?: FormatResultOptions) {
 		// init class
 		this.buffer = '';
 		this.level = 0;
-		this.options = options || {
-			linebreak: '\n\r',
-			indentation: '\t'
-		};
+		this.options = options || {};
+		this.options.linebreak = this.options.linebreak || '\r\n';
+		this.options.indentation = this.options.indentation || '\t';
 	}
 
 	/**
@@ -66,6 +76,7 @@ export class FormatResult {
 	 * Adds a new linebreak to the buffer
 	 *
 	 * @memberof FormatResult
+	 * @since 1.0
 	 */
 	public lineBreak(): void {
 		if (this.buffer.length === 0) {
@@ -85,6 +96,7 @@ export class FormatResult {
 	 * Increases the level of this result
 	 *
 	 * @memberof FormatResult
+	 * @since 1.0
 	 */
 	public indent(): void {
 		this.level++;
@@ -94,6 +106,7 @@ export class FormatResult {
 	 * Reduces the level of these results
 	 *
 	 * @memberof FormatResult
+	 * @since 1.0
 	 */
 	public outdent(): void {
 		this.level--;
@@ -103,7 +116,9 @@ export class FormatResult {
 	 * Returns the current xml content of this result
 	 *
 	 * @returns {string}
+	 * Content of this format result
 	 * @memberof FormatResult
+	 * @since 1.0
 	 */
 	public getContent(): string {
 		return this.buffer;

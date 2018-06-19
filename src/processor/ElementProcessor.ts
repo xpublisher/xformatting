@@ -4,8 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 import { Attribute, Element,  Node } from 'libxmljs';
 import { FormatResult } from '../FormatResult';
+import { ElementProcessorOptions } from '../types';
 import { Processor } from './Processor';
 import { ProcessorResolver } from './ProcessorResolver';
+
 /**
  * Processor to process elements. This processor builds a result for the current element and all its
  * children elements using the passed ProcessResolver
@@ -29,12 +31,14 @@ export class ElementProcessor implements Processor {
 	protected resolver: ProcessorResolver;
 
 	/**
-	 *
+	 * Options of this element processor
 	 *
 	 * @protected
+	 * @type {ElementProcessorOptions}
 	 * @memberof ElementProcessor
+	 * @since 1.0
 	 */
-	protected checkPreserveSpace: (node: Node, attrs: Map<string, Attribute>) => boolean;
+	protected options: ElementProcessorOptions;
 
 	/**
 	 * Creates an instance of ElementProcessor.
@@ -43,12 +47,15 @@ export class ElementProcessor implements Processor {
 	 * @memberof ElementProcessor
 	 * @since 1.0
 	 */
-	constructor(resolver: ProcessorResolver) {
+	constructor(resolver: ProcessorResolver, options?: ElementProcessorOptions) {
+		this.options = options || {};
+		this.options.preserveSpace = this.options.preserveSpace || this.checkPreserveSpaceDefault.bind(this);
+		this.options.preserveSpaceAttribute = this.options.preserveSpaceAttribute || 'xml:space';
 		this.resolver = resolver;
 	}
 
 	/**
-	 * Processes the passed node
+	 * Processes the passed node and executes the appropriate processor for all child elements.
 	 *
 	 * @param {Node} node
 	 * Node to be processed
@@ -80,11 +87,8 @@ export class ElementProcessor implements Processor {
 			result.append('>');
 			result.indent();
 
-			const xmlSpace =  attributes.get('xml:space');
-			let nodePreserveSpace = preserveSpace;
-			if (xmlSpace) {
-				nodePreserveSpace = xmlSpace.value() === 'preserve';
-			}
+			// check preserve white space
+			const nodePreserveSpace = this.options.preserveSpace(element, attributes, preserveSpace);
 
 			// handle all children
 			for (const childNode of childNodes) {
@@ -103,6 +107,19 @@ export class ElementProcessor implements Processor {
 		}
 	}
 
+	/**
+	 * Processes the attribute of the passed element for adds the corresponding result to the passed result
+	 *
+	 * @protected
+	 * @param {Element} element
+	 * Element for which attributes should to be processed.
+	 * @param {FormatResult} result
+	 * Result in which the result is to be written
+	 * @returns {Map<string, Attribute>}
+	 * Map of attribute name and attributes. The attribute name consists of namespace and name
+	 * @memberof ElementProcessor
+	 * @since 1.0
+	 */
 	protected processAttributes(element: Element, result: FormatResult): Map<string, Attribute> {
 		const attributeMap = new Map<string, Attribute>();
 
@@ -117,14 +134,50 @@ export class ElementProcessor implements Processor {
 		return attributeMap;
 	}
 
+	/**
+	 * Processes the passed attribute by adding it to the result. In addition,
+	 * the complete name of the attribute will returned
+	 *
+	 * @protected
+	 * @param {Attribute} attr
+	 * Attribute to be processed
+	 * @param {FormatResult} result
+	 * Result in which the result is to be written
+	 * @returns {string}
+	 * Full name of the attribute consists of namespace and name
+	 * @memberof ElementProcessor
+	 * @since 1.0
+	 */
 	protected processAttribute(attr: Attribute, result: FormatResult): string {
+		// build full name
 		const namespace = attr.namespace();
 		let name = attr.name();
 		if (namespace) {
 			name = namespace.prefix() + ':' + name;
 		}
-		result.append(name + '="' + attr.value() + '"');
 
+		// append result
+		result.append(name + '="' + attr.value() + '"');
 		return name;
+	}
+
+	/**
+	 *
+	 *
+	 * @protected
+	 * @param {Element} element
+	 * @param {Map<string, Attribute>} attrs
+	 * @param {boolean} preserveSpace
+	 * @returns {boolean}
+	 * @memberof ElementProcessor
+	 */
+	protected checkPreserveSpaceDefault(element: Element, attrs: Map<string, Attribute>, preserveSpace: boolean): boolean {
+		// get xml space attribute
+		const xmlSpace =  attrs.get(this.options.preserveSpaceAttribute);
+		let nodePreserveSpace = preserveSpace;
+		if (xmlSpace) {
+			nodePreserveSpace = xmlSpace.value() === 'preserve';
+		}
+		return nodePreserveSpace;
 	}
 }

@@ -2,27 +2,12 @@
  *  Copyright (c) Xpublisher GmbH. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { Attribute, Document, Node, parseXml } from 'libxmljs';
+import { Document, Node, parseXmlString } from 'libxmljs';
 import { FormatResult } from './FormatResult';
 import { ContentProcessor } from './processor/ContentProcessor';
 import { ElementProcessor } from './processor/ElementProcessor';
 import { ProcessorResolver } from './processor/ProcessorResolver';
-
-/**
- * Defines the possible options for the formatter
- *
- * @export
- * @interface FormatterOptions
- * @author kpalatzky
- * @since 1.0
- */
-export interface FormatterOptions {
-	debug?: boolean;
-	linebreak?: string;
-	indentation?: string;
-	preserveSpace?(node: Node, attrs: Map<string, Attribute>): boolean;
-	preserveSpaceAttribute?: string;
-}
+import { FormatterOptions } from './types';
 
 /**
  * Formats XML into a better readable format by inserting linebreaks and indents.
@@ -63,14 +48,10 @@ export class Formatter {
 	 */
 	constructor(options?: FormatterOptions) {
 		this.options = options || {};
-		this.options.debug = this.options.debug || false;
-		this.options.linebreak = this.options.linebreak || '\r\n';
-		this.options.indentation = this.options.indentation || '\t';
-		this.options.preserveSpaceAttribute = this.options.preserveSpaceAttribute || 'xml:space';
 
 		// add all resolver
 		const processorResolver = new ProcessorResolver();
-		processorResolver.add('element', new ElementProcessor(processorResolver));
+		processorResolver.add('element', new ElementProcessor(processorResolver, this.options));
 
 		// for the most known types just copy the content
 		const contentProcessor = new ContentProcessor();
@@ -95,9 +76,33 @@ export class Formatter {
 	 * @memberof Formatter
 	 * @since 1.0
 	 */
-	public format(xml: string): string {
-		const parseResult = parseXml(xml);
+	public formatSync(xml: string): string {
+		// @ts-ignore
+		const parseResult = parseXmlString(xml);
 		return this.formatDocument(parseResult).getContent();
+	}
+
+	/**
+	 * Formats the passed XML into a better readable format by inserting linebreaks and indents.
+	 * This function is just a wrapper for formatSync.
+	 *
+	 * @param {string} xml
+	 * XML to be formatted
+	 * @returns {Promise<string>}
+	 * Formatted xml
+	 * @memberof Formatter
+	 * @since 1.0
+	 */
+	public async format(xml: string): Promise<string> {
+		// make the sync fn async
+		return new Promise<string>((resolve, reject) => {
+			try {
+				const result = this.formatSync(xml);
+				resolve(result);
+			} catch (e) {
+				reject(e);
+			}
+		});
 	}
 
 	/**
