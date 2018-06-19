@@ -31,7 +31,7 @@ export interface ElementProcessorOptions {
 	 * @memberof ElementProcessorOptions
 	 * @since 1.0
 	 */
-	preserveSpace?: PreserveSpaceFn;
+	preserveSpaceFn?: PreserveSpaceFn;
 
 	/**
 	 * Attribute name to set the name of the preserve space attribute. Defaults to 'xml:space'.

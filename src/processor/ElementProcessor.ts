@@ -49,7 +49,7 @@ export class ElementProcessor implements Processor {
 	 */
 	constructor(resolver: ProcessorResolver, options?: ElementProcessorOptions) {
 		this.options = options || {};
-		this.options.preserveSpace = this.options.preserveSpace || this.checkPreserveSpaceDefault.bind(this);
+		this.options.preserveSpaceFn = this.options.preserveSpaceFn || this.checkPreserveSpaceDefault.bind(this);
 		this.options.preserveSpaceAttribute = this.options.preserveSpaceAttribute || 'xml:space';
 		this.resolver = resolver;
 	}
@@ -88,7 +88,7 @@ export class ElementProcessor implements Processor {
 			result.indent();
 
 			// check preserve white space
-			const nodePreserveSpace = this.options.preserveSpace(element, attributes, preserveSpace);
+			const nodePreserveSpace = this.options.preserveSpaceFn(element, attributes, preserveSpace);
 
 			// handle all children
 			for (const childNode of childNodes) {
