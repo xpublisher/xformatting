@@ -3,14 +3,14 @@
 		&lt;xformatting/&gt;
 	</h2>
 	<p>
-		<a href="https://github.com/xpublisher/xformat/issues">
-			<img src="https://img.shields.io/github/issues/xpublisher/xformat.svg" alt="Issues"/>
+		<a href="https://github.com/xpublisher/xformatting/issues">
+			<img src="https://img.shields.io/github/issues/xpublisher/xformatting.svg" alt="Issues"/>
 		</a>
-		<a href="https://travis-ci.org/xpublisher/xformats">
-			<img src="https://api.travis-ci.org/xpublisher/xformat.svg" alt="Travis"/>
+		<a href="https://travis-ci.org/xpublisher/xformatting">
+			<img src="https://api.travis-ci.org/xpublisher/xformatting.svg" alt="Travis"/>
 		</a>
-		<a href="https://github.com/xpublisher/xformat/blob/master/LICENSE" alt="License">
-			<img src="https://img.shields.io/github/license/xpublisher/xformat.svg"/>
+		<a href="https://github.com/xpublisher/xformatting/blob/master/LICENSE" alt="License">
+			<img src="https://img.shields.io/github/license/xpublisher/xformatting.svg"/>
 		</a>
 	</p>
 	<hr>

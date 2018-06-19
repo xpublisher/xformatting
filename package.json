@@ -8,7 +8,7 @@
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xpublisher/xformat.git"
+    "url": "https://github.com/xpublisher/xformatting.git"
   },
   "scripts": {
     "lint": "npm run lint:tslint --offline",
