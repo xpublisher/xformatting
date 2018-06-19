@@ -1,6 +1,6 @@
 <div align="center">
 	<h2 style="font-size: 30px">
-		&lt;xformat/&gt;
+		&lt;xformatting/&gt;
 	</h2>
 	<p>
 		<a href="https://github.com/xpublisher/xformat/issues">
@@ -22,7 +22,7 @@
 ## Installation
 
 ```
-$ npm install -S xformat
+$ npm install -S xformatting
 ```
 
 ## Usage
@@ -30,9 +30,9 @@ $ npm install -S xformat
 ### Synchronous
 
 ```js
-const { formatSync } = require('xformat');
+const { formatSync } = require('xformatting');
 
-const xml = '<xformat><code xml:space="preserve">var hello = "world"</code></xformat>';
+const xml = '<xformatting><code xml:space="preserve">var hello = "world"</code></xformatting>';
 const formattedXml = formatSync(xml);
 console.log(formattedXml);
 ```
@@ -40,9 +40,9 @@ console.log(formattedXml);
 ### Asynchronous
 
 ```js
-const { format } = require('xformat');
+const { format } = require('xformatting');
 
-const xml = '<xformat><code xml:space="preserve">var hello = "world"</code></xformat>';
+const xml = '<xformatting><code xml:space="preserve">var hello = "world"</code></xformatting>';
 format(xml).then((formattedXml) => {
 	console.log(formattedXml);
 });
