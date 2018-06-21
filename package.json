@@ -1,7 +1,7 @@
 {
   "name": "xformatting",
   "version": "0.0.0-development",
-  "description": "Formats XML into a better readable format by inserting linebreaks and indents. Supports all element types (e.g. processing instructions) and also the xml:space attribute",
+  "description": "Formats XML into a more readable format by inserting linebreaks and indents. Supports all element types (e.g. processing instructions) and also the xml:space attribute",
   "license": "MIT",
   "main": "./lib/index.js",
   "types": "./typings/index.d.ts",
