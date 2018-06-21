@@ -15,7 +15,7 @@
 	</p>
 	<hr>
 	<p>
-		Formats XML into a better readable format by inserting linebreaks and indents. Supports all element types (e.g. processing instructions) and also the xml:space attribute
+		Formats XML into a more readable format by inserting linebreaks and indents. Supports all element types (e.g. processing instructions) and also the xml:space attribute
 	</p>
 </div>
 
