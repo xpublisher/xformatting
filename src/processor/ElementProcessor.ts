@@ -2,7 +2,7 @@
  *  Copyright (c) Xpublisher GmbH. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { Attribute, Element,  Node } from 'libxmljs';
+import { Attribute, Element,  Namespace, Node } from 'libxmljs';
 import { FormatResult } from '../FormatResult';
 import { ElementProcessorOptions } from '../types';
 import { Processor } from './Processor';
@@ -78,6 +78,11 @@ export class ElementProcessor implements Processor {
 			result.lineBreak();
 		}
 		result.append('<' + element.name());
+
+		// process namespaces
+		this.processNamespaces(element, result);
+
+		// process attributes
 		const attributes = this.processAttributes(element, result);
 
 		// may handle children
@@ -108,9 +113,8 @@ export class ElementProcessor implements Processor {
 	}
 
 	/**
-	 * Processes the attribute of the passed element for adds the corresponding result to the passed result
+	 * Processes the attributes of the passed element for adds the corresponding result to the passed result
 	 *
-	 * @protected
 	 * @param {Element} element
 	 * Element for which attributes should to be processed.
 	 * @param {FormatResult} result
@@ -118,6 +122,7 @@ export class ElementProcessor implements Processor {
 	 * @returns {Map<string, Attribute>}
 	 * Map of attribute name and attributes. The attribute name consists of namespace and name
 	 * @memberof ElementProcessor
+	 * @protected
 	 * @since 1.0
 	 */
 	protected processAttributes(element: Element, result: FormatResult): Map<string, Attribute> {
@@ -138,7 +143,6 @@ export class ElementProcessor implements Processor {
 	 * Processes the passed attribute by adding it to the result. In addition,
 	 * the complete name of the attribute will returned
 	 *
-	 * @protected
 	 * @param {Attribute} attr
 	 * Attribute to be processed
 	 * @param {FormatResult} result
@@ -146,6 +150,7 @@ export class ElementProcessor implements Processor {
 	 * @returns {string}
 	 * Full name of the attribute consists of namespace and name
 	 * @memberof ElementProcessor
+	 * @protected
 	 * @since 1.0
 	 */
 	protected processAttribute(attr: Attribute, result: FormatResult): string {
@@ -162,14 +167,55 @@ export class ElementProcessor implements Processor {
 	}
 
 	/**
+	 * Processes the namespaces of the passed element for adds the corresponding result to the passed result
 	 *
-	 *
-	 * @protected
 	 * @param {Element} element
-	 * @param {Map<string, Attribute>} attrs
-	 * @param {boolean} preserveSpace
-	 * @returns {boolean}
+	 * Element for which namespaces should to be processed.
+	 * @param {FormatResult} result
+	 * Result in which the result is to be written
 	 * @memberof ElementProcessor
+	 * @protected
+	 * @since 1.1
+	 */
+	protected processNamespaces(element: Element, result: FormatResult): void {
+		const namespaces = element.namespaces(true);
+		for (const namespace of namespaces) {
+			result.append(' ');
+			this.processNamespace(namespace, result);
+		}
+	}
+
+	/**
+	 * Processes the passed namespace by adding it to the result.
+	 *
+	 * @param {Namespace} attr
+	 * Attribute to be processed
+	 * @param {FormatResult} result
+	 * Result in which the result is to be written
+	 * @returns {string}
+	 * Full name of the attribute consists of namespace and name
+	 * @memberof ElementProcessor
+	 * @protected
+	 * @since 1.1
+	 */
+	protected processNamespace(ns: Namespace, result: FormatResult): void {
+		result.append(`xmlns:${ns.prefix()}="${ns.href()}"`);
+	}
+
+	/**
+	 * Checks if perserve whitespace is enabled for the given element
+	 *
+	 * @param {Element} element
+	 * Element to check preserve whitespace
+	 * @param {Map<string, Attribute>} attrs
+	 * Map of attributes of the element
+	 * @param {boolean} preserveSpace
+	 * True if currently preserve space is enabled for the element
+	 * @returns {boolean}
+	 * True if the space of the element should be preserved, false otherwise
+	 * @memberof ElementProcessor
+	 * @protected
+	 * @since 1.0
 	 */
 	protected checkPreserveSpaceDefault(element: Element, attrs: Map<string, Attribute>, preserveSpace: boolean): boolean {
 		// get xml space attribute
