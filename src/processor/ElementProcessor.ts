@@ -199,7 +199,12 @@ export class ElementProcessor implements Processor {
 	 * @since 1.1
 	 */
 	protected processNamespace(ns: Namespace, result: FormatResult): void {
-		result.append(`xmlns:${ns.prefix()}="${ns.href()}"`);
+		const prefix = ns.prefix();
+		if (prefix) {
+			result.append(`xmlns:${prefix}="${ns.href()}"`);
+		} else {
+			result.append(`xmlns="${ns.href()}"`);
+		}
 	}
 
 	/**
