@@ -161,8 +161,16 @@ export class ElementProcessor implements Processor {
 			name = namespace.prefix() + ':' + name;
 		}
 
+		// encode xml chars
+		const value = attr.value()
+						.replace(/\</g, '&lt;')
+						.replace(/\>/g, '&gt;')
+						.replace(/\&/g, '&amp;')
+						.replace(/\"/g, '&quot;')
+						.replace(/\'/g, '&apos;');
+
 		// append result
-		result.append(name + '="' + attr.value() + '"');
+		result.append(name + '="' + value + '"');
 		return name;
 	}
 

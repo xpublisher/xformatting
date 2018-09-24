@@ -1,7 +1,7 @@
 <!-- BUGS and FEATURE: Please use this template, otherwise this issue will be closed -->
 <!-- QUESTIONS: Please use Stackoverflow. Issues which contain questions or support will be closed. -->
 
-**Xformat Version:** 1.0.0
+**Xformat Version:** 1.1.1
 
 **Type of report:**
 - [X] BUG
