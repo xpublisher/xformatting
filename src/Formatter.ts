@@ -7,6 +7,7 @@ import { FormatResult } from './FormatResult';
 import { ContentProcessor } from './processor/ContentProcessor';
 import { ElementProcessor } from './processor/ElementProcessor';
 import { ProcessorResolver } from './processor/ProcessorResolver';
+import { TextProcessor } from './processor/TextProcessor';
 import { FormatterOptions } from './types';
 
 /**
@@ -53,12 +54,14 @@ export class Formatter {
 		const processorResolver = new ProcessorResolver();
 		processorResolver.add('element', new ElementProcessor(processorResolver, this.options));
 
+		const textProcessor = new TextProcessor();
+		processorResolver.add('text', textProcessor);
+		processorResolver.add('cdata', textProcessor);
+
 		// for the most known types just copy the content
 		const contentProcessor = new ContentProcessor();
 		processorResolver.add('dtd', contentProcessor);
-		processorResolver.add('text', contentProcessor);
 		processorResolver.add('comment', contentProcessor);
-		processorResolver.add('cdata', contentProcessor);
 		processorResolver.add('pi', contentProcessor);
 
 		// copy content on unknown types

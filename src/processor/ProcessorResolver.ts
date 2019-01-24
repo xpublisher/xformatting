@@ -87,7 +87,7 @@ export class ProcessorResolver implements Processor {
 	 * @memberof ProcessorResolver
 	 * @since 1.0
 	 */
-	public process(node: Node, result: FormatResult, preserveSpace: boolean): void {
+	public process(node: Node, result: FormatResult, preserveSpace: boolean, lastProcessType?: string): string {
 		// get processor for type of node
 		const type = node.type();
 		let processor = this.resolve(type);
@@ -99,8 +99,10 @@ export class ProcessorResolver implements Processor {
 
 		// call processor if possible
 		if (processor) {
-			processor.process(node, result, preserveSpace);
+			processor.process(node, result, preserveSpace, lastProcessType);
 		}
+
+		return type;
 	}
 
 	/**

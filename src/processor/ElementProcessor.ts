@@ -66,7 +66,7 @@ export class ElementProcessor implements Processor {
 	 * @memberof ElementProcessor
 	 * @since 1.0
 	 */
-	public process(node: Node, result: FormatResult, preserveSpace: boolean): void {
+	public process(node: Node, result: FormatResult, preserveSpace: boolean, lastProcessType?: string): void {
 		// only handle elements
 		if (!(node instanceof Element)) {
 			return;
@@ -74,7 +74,7 @@ export class ElementProcessor implements Processor {
 		const element = node as Element;
 
 		// start tag & attributes
-		if (!preserveSpace) {
+		if (!preserveSpace && lastProcessType !== 'text') {
 			result.lineBreak();
 		}
 		result.append('<' + element.name());
@@ -96,13 +96,14 @@ export class ElementProcessor implements Processor {
 			const nodePreserveSpace = this.options.preserveSpaceFn(element, attributes, preserveSpace);
 
 			// handle all children
+			let lastNodeType = null;
 			for (const childNode of childNodes) {
-				this.resolver.process(childNode, result, nodePreserveSpace);
+				lastNodeType = this.resolver.process(childNode, result, nodePreserveSpace, lastNodeType);
 			}
 
 			// outdent and close tag
 			result.outdent();
-			if (!nodePreserveSpace) {
+			if (!nodePreserveSpace && lastNodeType !== 'text') {
 				result.lineBreak();
 			}
 			result.append('</' + element.name() + '>');

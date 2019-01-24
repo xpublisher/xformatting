@@ -4,19 +4,21 @@
  *--------------------------------------------------------------------------------------------*/
 import { Node } from 'libxmljs';
 import { FormatResult } from '../FormatResult';
+import { Processor } from './Processor';
 
 /**
- * Describes the processor interface
+ * Processor to process any content. This processor simply calls the toString method of the passed node instance.
  *
  * @export
- * @interface Processor
+ * @class TextProcessor
+ * @implements {Processor}
  * @author kpalatzky
- * @since 1.0
+ * @since 1.2
  */
-export interface Processor {
+export class TextProcessor implements Processor {
 
 	/**
-	 * Processes the passed node and adds the result to the result.
+	 * Processes the passed node by calling the `toString` method of the given instance.
 	 *
 	 * @param {Node} node
 	 * Node to be processed
@@ -24,8 +26,11 @@ export interface Processor {
 	 * Result in which the result is to be written
 	 * @param {boolean} preserveSpace
 	 * True to preserve the whitespace, false otherwise
-	 * @memberof Processor
-	 * @since 1.0
+	 * @memberof TextProcessor
+	 * @since 1.2
 	 */
-	process(node: Node, result: FormatResult, preserveSpace: boolean, lastProcessType?: string): void;
+	public process(node: Node, result: FormatResult, preserveSpace: boolean): void {
+		const content = node.toString();
+		result.append(content);
+	}
 }
