@@ -77,7 +77,14 @@ export class ElementProcessor implements Processor {
 		if (!preserveSpace && lastProcessType !== 'text') {
 			result.lineBreak();
 		}
-		result.append('<' + element.name());
+		
+		let elementName = element.name();
+		const namespace = element.namespace();
+		if (namespace && namespace.prefix()) {
+			elementName = namespace.prefix() + ":" + elementName;
+		}
+
+		result.append('<' + elementName);
 
 		// process namespaces
 		this.processNamespaces(element, result);
@@ -106,7 +113,7 @@ export class ElementProcessor implements Processor {
 			if (!nodePreserveSpace && lastNodeType !== 'text') {
 				result.lineBreak();
 			}
-			result.append('</' + element.name() + '>');
+			result.append('</' + elementName + '>');
 		} else {
 			// no children - close tag
 			result.append('/>');
