@@ -77,11 +77,11 @@ export class ElementProcessor implements Processor {
 		if (!preserveSpace && lastProcessType !== 'text') {
 			result.lineBreak();
 		}
-		
+
 		let elementName = element.name();
 		const namespace = element.namespace();
 		if (namespace && namespace.prefix()) {
-			elementName = namespace.prefix() + ":" + elementName;
+			elementName = namespace.prefix() + ':' + elementName;
 		}
 
 		result.append('<' + elementName);
