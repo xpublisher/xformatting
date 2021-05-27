@@ -2,7 +2,7 @@
  *  Copyright (c) Xpublisher GmbH. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import { Document, Node, parseXmlString } from 'libxmljs';
+import { Document, Node, parseXmlString } from 'libxmljs2';
 import { FormatResult } from './FormatResult';
 import { ContentProcessor } from './processor/ContentProcessor';
 import { ElementProcessor } from './processor/ElementProcessor';

@@ -1,4 +1,4 @@
-import { Attribute, Element, Node } from 'libxmljs';
+import { Attribute, Element, Node } from 'libxmljs2';
 
 export type PreserveSpaceFn = (element: Element, attrs: Map<string, Attribute>, preserveSpace: boolean) => boolean;
 
