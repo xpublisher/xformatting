@@ -8,8 +8,8 @@ node_js:
   - '14'
 install: npm install
 before_install:
-  - npm install -g npm@5
-  - npm install -g greenkeeper-lockfile@1
+  - npm install -g npm@7
+  - npm install -g greenkeeper-lockfile@2
 jobs:
   include:
     - stage: test
