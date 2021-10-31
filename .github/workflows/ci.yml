@@ -1,0 +1,52 @@
+
+name: Test & Deploy
+
+# Triggers the workflow on push or pull request events
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Build & Test Node v${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14, 16]
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      # install application dependencies
+      - name: Install dependencies
+        run: |
+          sudo chown -R runner:runner /usr/local/share/man /usr/local/lib/node_modules
+          npm install
+          npm install -g npm@7
+      # build and test the app
+      - name: Build & Test
+        run: |
+          npm run compile
+          npm run lint
+  deploy:
+    name: Deploy Node v${{ matrix.node-version }}
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14, 16]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: |
+          sudo chown -R runner:runner /usr/local/share/man /usr/local/lib/node_modules
+          npm install
+          npm install -g npm@7
+      - name: Build & Deploy
+        run: |
+          npm run travis-deploy-once "npm run semantic-release"
