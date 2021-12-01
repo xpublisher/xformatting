@@ -57,12 +57,12 @@ export class Formatter {
 		const textProcessor = new TextProcessor();
 		processorResolver.add('text', textProcessor);
 		processorResolver.add('cdata', textProcessor);
+		processorResolver.add('pi', textProcessor);
 
 		// for the most known types just copy the content
 		const contentProcessor = new ContentProcessor();
 		processorResolver.add('dtd', contentProcessor);
 		processorResolver.add('comment', contentProcessor);
-		processorResolver.add('pi', contentProcessor);
 
 		// copy content on unknown types
 		processorResolver.setFallback(contentProcessor);
