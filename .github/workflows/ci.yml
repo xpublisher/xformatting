@@ -49,4 +49,4 @@ jobs:
           npm install -g npm@7
       - name: Build & Deploy
         run: |
-          npm run travis-deploy-once "npm run semantic-release"
+          npm run semantic-release
