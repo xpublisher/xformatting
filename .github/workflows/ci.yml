@@ -47,5 +47,7 @@ jobs:
           npm install
           npm install -g npm@7
       - name: Build & Deploy
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm run semantic-release
