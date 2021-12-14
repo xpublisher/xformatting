@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12, 14, 16, 18]
+        node-version: [12, 14, 16, 'lts/*']
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -39,7 +39,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: 'lts/*'
       - name: Install dependencies
         run: |
           sudo chown -R runner:runner /usr/local/share/man /usr/local/lib/node_modules
