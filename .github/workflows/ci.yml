@@ -34,6 +34,7 @@ jobs:
     needs: test
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    environment: npm
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
