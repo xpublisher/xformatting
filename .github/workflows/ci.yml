@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14, 16]
+        node-version: [12, 14, 16, 18]
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -30,18 +30,15 @@ jobs:
           npm run compile
           npm run lint
   deploy:
-    name: Deploy Node v${{ matrix.node-version }}
+    name: Deploy
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14, 16]
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '16'
       - name: Install dependencies
         run: |
           sudo chown -R runner:runner /usr/local/share/man /usr/local/lib/node_modules
