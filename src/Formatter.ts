@@ -80,9 +80,10 @@ export class Formatter {
 	 * @since 1.0
 	 */
 	public formatSync(xml: string): string {
+		xml = xml.replace(/&/g, '&amp;');
 		// @ts-ignore
 		const parseResult = parseXmlString(xml);
-		return this.formatDocument(parseResult).getContent();
+		return this.formatDocument(parseResult).getContent().replace(/&amp;/g, '&');
 	}
 
 	/**
