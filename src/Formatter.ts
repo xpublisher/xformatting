@@ -120,7 +120,7 @@ export class Formatter {
 	 * @since 1.0
 	 */
 	protected formatDocument(doc: Document): FormatResult {
-		const formatResult = new FormatResult();
+		const formatResult = new FormatResult(this.options);
 
 		// add xml declaration
 		const version = doc.version() || '1.0';
