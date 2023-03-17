@@ -37,17 +37,17 @@
     "libxmljs"
   ],
   "dependencies": {
-    "libxmljs2": "^0.29.0"
+    "libxmljs2": "^0.31.0"
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/npm": "^8.0.3",
+    "@semantic-release/npm": "^9.0.2",
     "@semantic-release/release-notes-generator": "^10.0.3",
-    "@types/libxmljs": "^0.18.7",
-    "semantic-release": "^18.0.1",
+    "@types/libxmljs": "^0.18.8",
+    "semantic-release": "^20.1.1",
     "travis-deploy-once": "^5.0.11",
-    "ts-node": "^10.4.0",
+    "ts-node": "^10.9.1",
     "tslint": "^6.1.2",
-    "typescript": "^4.5.4"
+    "typescript": "^5.0.2"
   }
 }

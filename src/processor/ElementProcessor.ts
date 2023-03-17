@@ -74,7 +74,7 @@ export class ElementProcessor implements Processor {
 		const element = node as Element;
 
 		// start tag & attributes
-		if (!preserveSpace && lastProcessType !== 'text') {
+		if (!preserveSpace && !["text", "pi", "comment"].find(type => type === lastProcessType)) {
 			result.lineBreak();
 		}
 
@@ -110,7 +110,7 @@ export class ElementProcessor implements Processor {
 
 			// outdent and close tag
 			result.outdent();
-			if (!nodePreserveSpace && lastNodeType !== 'text') {
+			if (!nodePreserveSpace && !["text", "pi", "comment"].find(type => type === lastNodeType)) {
 				result.lineBreak();
 			}
 			result.append('</' + elementName + '>');
